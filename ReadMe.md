@@ -1,0 +1,22 @@
+# Netflix watcher
+
+Update Netflix Household without interaction.
+
+## Table of Contents
+
+- [Project Description](#project-description)
+- [Installation](#installation)
+
+## Project Description
+
+This is made for all the Netflix users that switches between TV's and have to update Netflix Household everytime they want to watch by confirming either via SMS or E-mail. This code checks for incoming e-mail from Netflix when you click on validate via e-mail on your TV, reads the mail, click the button, opens the page in Selenium, logs into your Netflix account and confirm your new TV. So everything you need to do is just click on check via e-mail on your TV and the rest is done here within seconds.
+
+## Installation
+
+Briefly describe how to set up and install your project. If there are any prerequisites, list them here.
+
+1. Clone this repository: `git clone https://github.com/jakubfrasunek/netflixWatcher`
+2. Navigate to the project directory: `cd netflixWatcher`.
+3. Create your own `.env` file from `.example.env` file. `EMAIL_LOGIN` is the email that you have associated with Netflix account.
+4. Run the containers: `docker compose up -d`.
+5. Enjoy.

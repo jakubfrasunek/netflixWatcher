@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  selenium:
+    container_name: netflix_watcher_selenium
+    image: seleniarm/standalone-chromium:latest
+    restart: always
+    depends_on:
+      - api
+    volumes:
+      - ./:/app
+    env_file:
+      - ./.env
+    ports:
+      - "4444:4444"
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: netflix_watcher_api
+    restart: always
+    volumes:
+      - ./app:/app
+    env_file:
+      - ./.env
