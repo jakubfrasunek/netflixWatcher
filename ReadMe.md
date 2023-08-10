@@ -13,8 +13,6 @@ This is made for all the Netflix users that switches between TV's and have to up
 
 ## Installation
 
-Briefly describe how to set up and install your project. If there are any prerequisites, list them here.
-
 1. Clone this repository: `git clone https://github.com/jakubfrasunek/netflixWatcher`
 2. Navigate to the project directory: `cd netflixWatcher`.
 3. Create your own `.env` file from `.example.env` file. `EMAIL_LOGIN` is the email that you have associated with Netflix account.
