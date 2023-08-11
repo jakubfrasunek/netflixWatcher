@@ -8,6 +8,7 @@ on:
 jobs:
   lint:
     name: Run Linting
+    environment: LINT-CI
     runs-on: ubuntu-latest
 
     steps:
@@ -27,6 +28,13 @@ jobs:
 
       - name: Start services
         run: make up
+        env:
+          NETFLIX_LOGIN: ${{ secrets.NETFLIX_LOGIN }}
+          NETFLIX_PASSWORD: ${{ secrets.NETFLIX_PASSWORD }}
+          EMAIL_IMAP: ${{ secrets.EMAIL_IMAP }}
+          EMAIL_LOGIN: ${{ secrets.EMAIL_LOGIN }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          NETFLIX_EMAIL_SENDER: ${{ secrets.NETFLIX_EMAIL_SENDER }}
 
       - name: Wait for app service to be ready
         run: sleep 10
