@@ -5,7 +5,7 @@ services:
     image: seleniarm/standalone-chromium:latest
     restart: always
     depends_on:
-      - api
+      - app
     volumes:
       - ./:/app
     env_file:
@@ -13,11 +13,11 @@ services:
     ports:
       - "4444:4444"
 
-  api:
+  app:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: netflix_watcher_api
+    container_name: netflix_watcher_app
     restart: always
     volumes:
       - ./app:/app
