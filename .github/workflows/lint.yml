@@ -21,24 +21,17 @@ jobs:
           python-version: 3.9
 
       - name: Set up environment variables
-        run: |
-          echo "NETFLIX_LOGIN=${{ secrets.NETFLIX_LOGIN }}"
-          echo "NETFLIX_PASSWORD=${{ secrets.NETFLIX_PASSWORD }}"
-          # ... and so on for other variables
         env:
           NETFLIX_LOGIN: ${{ secrets.NETFLIX_LOGIN }}
           NETFLIX_PASSWORD: ${{ secrets.NETFLIX_PASSWORD }}
 
 
       - name: Set up environment variables and start services
+        env:
+          NETFLIX_LOGIN: ${{ secrets.NETFLIX_LOGIN }}
+          NETFLIX_PASSWORD: ${{ secrets.NETFLIX_PASSWORD }}
         run: |
-          echo "NETFLIX_LOGIN=${{ secrets.NETFLIX_LOGIN }}" >> .env
-          echo "NETFLIX_PASSWORD=${{ secrets.NETFLIX_PASSWORD }}" >> .env
-          echo "EMAIL_IMAP=${{ secrets.EMAIL_IMAP }}" >> .env
-          echo "EMAIL_LOGIN=${{ secrets.EMAIL_LOGIN }}" >> .env
-          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> .env
-          echo "NETFLIX_EMAIL_SENDER=${{ secrets.NETFLIX_EMAIL_SENDER }}" >> .env
-          make build
+          docker compose build --build-arg NETFLIX_LOGIN=$NETFLIX_LOGIN
           make up
 
       - name: Wait for app service to be ready
