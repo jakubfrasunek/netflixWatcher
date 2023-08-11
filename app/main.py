@@ -21,6 +21,13 @@ EMAIL_LOGIN = os.getenv('EMAIL_LOGIN')
 EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
 NETFLIX_EMAIL_SENDER = os.getenv('NETFLIX_EMAIL_SENDER')
 
+print(NETFLIX_LOGIN, flush=True)
+print(NETFLIX_PASSWORD, flush=True)
+print(EMAIL_IMAP, flush=True)
+print(EMAIL_LOGIN, flush=True)
+print(EMAIL_PASSWORD, flush=True)
+print(NETFLIX_EMAIL_SENDER, flush=True)
+
 
 def extract_links(text):
     """Finds all https links"""
