@@ -14,6 +14,7 @@ NETFLIX_PASSWORD = os.environ['NETFLIX_PASSWORD']
 EMAIL_IMAP = os.environ['EMAIL_IMAP']
 EMAIL_LOGIN = os.environ['EMAIL_LOGIN']
 EMAIL_PASSWORD = os.environ['EMAIL_PASSWORD']
+NETFLIX_EMAIL_SENDER = os.environ['NETFLIX_EMAIL_SENDER']
 
 
 def extract_links(text):
@@ -22,34 +23,37 @@ def extract_links(text):
     return urls
 
 
-def open_link_with_selenium(link):
-    options = webdriver.ChromeOptions()
-    options.add_argument("--headless")
-    driver = webdriver.Remote(
-        command_executor='http://netflix_watcher_selenium:4444/wd/hub',
-        options=options
-    )
+def open_link_with_selenium(body):
+    links = extract_links(body)
+    for link in links:
+        if "update-primary-location" in link:
+            options = webdriver.ChromeOptions()
+            options.add_argument("--headless")
+            driver = webdriver.Remote(
+                command_executor='http://netflix_watcher_selenium:4444/wd/hub',
+                options=options
+            )
 
-    driver.get(link)
-    time.sleep(2)
-    email_field = driver.find_element('name', 'userLoginId')
-    email_field.send_keys(NETFLIX_LOGIN)
-    password_field = driver.find_element('name', 'password')
-    password_field.send_keys(NETFLIX_PASSWORD)
+            driver.get(link)
+            time.sleep(2)
+            email_field = driver.find_element('name', 'userLoginId')
+            email_field.send_keys(NETFLIX_LOGIN)
+            password_field = driver.find_element('name', 'password')
+            password_field.send_keys(NETFLIX_PASSWORD)
 
-    password_field.send_keys(Keys.RETURN)
-    time.sleep(2)
-    try:
-        element = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-uia="set-primary-location-action"]'))
-        )
+            password_field.send_keys(Keys.RETURN)
+            time.sleep(2)
+            try:
+                element = WebDriverWait(driver, 10).until(
+                    EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-uia="set-primary-location-action"]'))
+                )
 
-        element.click()
-    except Exception as e:
-        print("Error:", e)
+                element.click()
+            except Exception as e:
+                print("Error:", e)
 
-    time.sleep(2)
-    driver.quit()
+            time.sleep(2)
+            driver.quit()
 
 
 def fetch_last_unseen_email():
@@ -57,7 +61,7 @@ def fetch_last_unseen_email():
     mail.login(EMAIL_LOGIN, EMAIL_PASSWORD)
     mail.select("inbox")
 
-    status, email_ids = mail.search(None, '(UNSEEN FROM "info@account.netflix.com")')
+    status, email_ids = mail.search(None, '(UNSEEN FROM ' + NETFLIX_EMAIL_SENDER + ')')
     email_ids = email_ids[0].split()
 
     if email_ids:
@@ -70,16 +74,10 @@ def fetch_last_unseen_email():
                 content_type = part.get_content_type()
                 if "text/plain" in content_type:
                     body = part.get_payload(decode=True).decode()
-                    links = extract_links(body)
-                    for link in links:
-                        if "update-primary-location" in link:
-                            open_link_with_selenium(link)
+                    open_link_with_selenium(body)
         else:
             body = msg.get_payload(decode=True).decode()
-            links = extract_links(body)
-            for link in links:
-                if "update-primary-location" in link:
-                    open_link_with_selenium(link)
+            open_link_with_selenium(body)
 
     mail.logout()
 
