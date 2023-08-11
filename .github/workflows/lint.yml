@@ -20,33 +20,14 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Set environment variables
-        env:
-          NETFLIX_LOGIN: ${{ secrets.NETFLIX_LOGIN }}
-          NETFLIX_PASSWORD: ${{ secrets.NETFLIX_PASSWORD }}
-        run: |
-          echo "NETFLIX_LOGIN: $NETFLIX_LOGIN"
-          echo "NETFLIX_PASSWORD: $NETFLIX_PASSWORD"
-
       - name: Create empty .env file
         run: touch .env
 
       - name: Build images
         run: make build
 
-      - name: Print NETFLIX_LOGIN secret
-        run: echo ${{ secrets.NETFLIX_LOGIN }}
-
-
       - name: Start services
         run: make up
-        env:
-          NETFLIX_LOGIN: ${{ secrets.NETFLIX_LOGIN }}
-          NETFLIX_PASSWORD: ${{ secrets.NETFLIX_PASSWORD }}
-          EMAIL_IMAP: ${{ secrets.EMAIL_IMAP }}
-          EMAIL_LOGIN: ${{ secrets.EMAIL_LOGIN }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-          NETFLIX_EMAIL_SENDER: ${{ secrets.NETFLIX_EMAIL_SENDER }}
 
       - name: Wait for app service to be ready
         run: sleep 10
