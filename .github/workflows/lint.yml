@@ -20,12 +20,6 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Set up environment variables
-        env:
-          NETFLIX_LOGIN: ${{ secrets.NETFLIX_LOGIN }}
-          NETFLIX_PASSWORD: ${{ secrets.NETFLIX_PASSWORD }}
-
-
       - name: Set up environment variables and start services
         env:
           NETFLIX_LOGIN: ${{ secrets.NETFLIX_LOGIN }}
