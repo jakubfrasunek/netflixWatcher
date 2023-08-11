@@ -20,11 +20,16 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Build images
-        run: make build
-
-      - name: Start services
-        run: make up
+      - name: Set up environment variables and start services
+        run: |
+          echo "NETFLIX_LOGIN=${{ secrets.NETFLIX_LOGIN }}" >> .env
+          echo "NETFLIX_PASSWORD=${{ secrets.NETFLIX_PASSWORD }}" >> .env
+          echo "EMAIL_IMAP=${{ secrets.EMAIL_IMAP }}" >> .env
+          echo "EMAIL_LOGIN=${{ secrets.EMAIL_LOGIN }}" >> .env
+          echo "EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> .env
+          echo "NETFLIX_EMAIL_SENDER=${{ secrets.NETFLIX_EMAIL_SENDER }}" >> .env
+          make build
+          make up
         env:
           NETFLIX_LOGIN: ${{ secrets.NETFLIX_LOGIN }}
           NETFLIX_PASSWORD: ${{ secrets.NETFLIX_PASSWORD }}
@@ -47,4 +52,3 @@ jobs:
       - name: Run linting
         run: |
           make lint
-
