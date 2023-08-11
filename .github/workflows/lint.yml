@@ -3,7 +3,7 @@ name: Lint
 on:
   push:
     branches:
-      - '*'  # Change this to your main branch name if different
+      - '*'
 
 jobs:
   lint:
@@ -18,6 +18,9 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
+
+      - name: Copy .env file
+        run: cp .env app/.env
 
       - name: Install dependencies
         run: |
