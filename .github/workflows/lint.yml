@@ -20,9 +20,6 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Create empty .env file
-        run: touch .env
-
       - name: Build images
         run: make build
 
