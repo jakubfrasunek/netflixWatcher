@@ -23,7 +23,7 @@ jobs:
         run: make up
 
       - name: Wait for app service to be ready
-        run: sleep 10  # Adjust the sleep duration as needed
+        run: sleep 20  # Adjust the sleep duration as needed
 
       - name: Install dependencies
         run: |
