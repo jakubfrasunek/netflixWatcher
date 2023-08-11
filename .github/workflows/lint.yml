@@ -37,14 +37,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r app/requirements.txt
 
+      - name: Set Environment Variables
+        run: |
+          echo "export NETFLIX_LOGIN=${{ secrets.NETFLIX_LOGIN }}" >> $GITHUB_ENV
+          echo "export NETFLIX_PASSWORD=${{ secrets.NETFLIX_PASSWORD }}" >> $GITHUB_ENV
+          echo "export EMAIL_IMAP=${{ secrets.EMAIL_IMAP }}" >> $GITHUB_ENV
+          echo "export EMAIL_LOGIN=${{ secrets.EMAIL_LOGIN }}" >> $GITHUB_ENV
+          echo "export EMAIL_PASSWORD=${{ secrets.EMAIL_PASSWORD }}" >> $GITHUB_ENV
+          echo "export NETFLIX_EMAIL_SENDER=${{ secrets.NETFLIX_EMAIL_SENDER }}" >> $GITHUB_ENV
+
       - name: Run linting
         run: |
+          source $GITHUB_ENV
           make lint
-        env:
-          NETFLIX_LOGIN: ${{ secrets.NETFLIX_LOGIN }}
-          NETFLIX_PASSWORD: ${{ secrets.NETFLIX_PASSWORD }}
-          EMAIL_IMAP: ${{ secrets.EMAIL_IMAP }}
-          EMAIL_LOGIN: ${{ secrets.EMAIL_LOGIN }}
-          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-          NETFLIX_EMAIL_SENDER: ${{ secrets.NETFLIX_EMAIL_SENDER }}
-
