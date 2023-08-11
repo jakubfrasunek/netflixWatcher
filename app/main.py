@@ -18,6 +18,8 @@ EMAIL_LOGIN = os.environ['EMAIL_LOGIN']
 EMAIL_PASSWORD = os.environ['EMAIL_PASSWORD']
 NETFLIX_EMAIL_SENDER = os.environ['NETFLIX_EMAIL_SENDER']
 
+print(NETFLIX_LOGIN, flush=True)
+
 
 def extract_links(text):
     """Finds all https links"""
