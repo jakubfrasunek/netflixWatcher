@@ -26,6 +26,10 @@ jobs:
       - name: Build images
         run: make build
 
+      - name: Print NETFLIX_LOGIN secret
+        run: echo ${{ secrets.NETFLIX_LOGIN }}
+
+
       - name: Start services
         run: make up
         env:
@@ -35,6 +39,9 @@ jobs:
           EMAIL_LOGIN: ${{ secrets.EMAIL_LOGIN }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
           NETFLIX_EMAIL_SENDER: ${{ secrets.NETFLIX_EMAIL_SENDER }}
+
+      - name: Print NETFLIX_LOGIN secret
+        run: echo ${{ secrets.NETFLIX_LOGIN }}
 
       - name: Wait for app service to be ready
         run: sleep 10
