@@ -11,12 +11,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-NETFLIX_LOGIN = os.getenv('NETFLIX_LOGIN')
-NETFLIX_PASSWORD = os.getenv('NETFLIX_PASSWORD')
-EMAIL_IMAP = os.getenv('EMAIL_IMAP')
-EMAIL_LOGIN = os.getenv('EMAIL_LOGIN')
-EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
-NETFLIX_EMAIL_SENDER = os.getenv('NETFLIX_EMAIL_SENDER')
+NETFLIX_LOGIN = os.environ['NETFLIX_LOGIN']
+NETFLIX_PASSWORD = os.environ['NETFLIX_PASSWORD']
+EMAIL_IMAP = os.environ['EMAIL_IMAP']
+EMAIL_LOGIN = os.environ['EMAIL_LOGIN']
+EMAIL_PASSWORD = os.environ['EMAIL_PASSWORD']
+NETFLIX_EMAIL_SENDER = os.environ['NETFLIX_EMAIL_SENDER']
 
 
 def extract_links(text):
