@@ -8,8 +8,6 @@ services:
       - app
     volumes:
       - ./:/app
-    env_file:
-      - ./.env
     ports:
       - "4444:4444"
 
@@ -21,5 +19,3 @@ services:
     restart: always
     volumes:
       - ./app:/app
-    env_file:
-      - ./.env
