@@ -16,5 +16,5 @@ This is made for all the Netflix users that switches between TV's and have to up
 1. Clone this repository: `git clone https://github.com/jakubfrasunek/netflixWatcher`
 2. Navigate to the project directory: `cd netflixWatcher`.
 3. Create your own `.env` file from `.example.env` file. `EMAIL_LOGIN` is the email that you have associated with Netflix account. `NETFLIX_EMAIL_SENDER` is the e-mail address that sends the confirmation button. Default is `info@account.netflix.com`, you may want to change it if you want to forward that e-mail from your Netflix associated e-mail address to another one.
-4. Run the containers: `docker compose up -d`.
+4. Run the containers: `make up`.
 5. Enjoy.
