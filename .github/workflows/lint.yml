@@ -19,14 +19,18 @@ jobs:
         with:
           python-version: 3.9
 
-      - name: Copy .env file
-        run: cp .env app/.env
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r app/requirements.txt
 
       - name: Run linting
+        env:
+          NETFLIX_LOGIN: ${{ secrets.NETFLIX_LOGIN }}
+          NETFLIX_PASSWORD: ${{ secrets.NETFLIX_PASSWORD }}
+          EMAIL_IMAP: ${{ secrets.EMAIL_IMAP }}
+          EMAIL_LOGIN: ${{ secrets.EMAIL_LOGIN }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+          NETFLIX_EMAIL_SENDER: ${{ secrets.NETFLIX_EMAIL_SENDER }}
         run: |
           make lint
