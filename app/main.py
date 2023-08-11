@@ -1,13 +1,15 @@
+"""Module providing confirmation for Netflix Household update"""
 import imaplib
 import email
 import re
 import time
+import os
 from selenium import webdriver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import os
+from selenium.common.exceptions import TimeoutException
 
 NETFLIX_LOGIN = os.environ['NETFLIX_LOGIN']
 NETFLIX_PASSWORD = os.environ['NETFLIX_PASSWORD']
@@ -18,12 +20,14 @@ NETFLIX_EMAIL_SENDER = os.environ['NETFLIX_EMAIL_SENDER']
 
 
 def extract_links(text):
+    """Finds all https links"""
     url_pattern = r'https?://\S+'
     urls = re.findall(url_pattern, text)
     return urls
 
 
 def open_link_with_selenium(body):
+    """Opens Selenium, logins to Netflix and click a button to confirm connection"""
     links = extract_links(body)
     for link in links:
         if "update-primary-location" in link:
@@ -45,28 +49,31 @@ def open_link_with_selenium(body):
             time.sleep(2)
             try:
                 element = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.CSS_SELECTOR, '[data-uia="set-primary-location-action"]'))
+                    EC.element_to_be_clickable((
+                        By.CSS_SELECTOR, '[data-uia="set-primary-location-action"]'
+                    ))
                 )
 
                 element.click()
-            except Exception as e:
-                print("Error:", e)
+            except TimeoutException as exception:
+                print("Error:", exception)
 
             time.sleep(2)
             driver.quit()
 
 
 def fetch_last_unseen_email():
+    """Gets body of last unseen mail from inbox"""
     mail = imaplib.IMAP4_SSL(EMAIL_IMAP)
     mail.login(EMAIL_LOGIN, EMAIL_PASSWORD)
     mail.select("inbox")
 
-    status, email_ids = mail.search(None, '(UNSEEN FROM ' + NETFLIX_EMAIL_SENDER + ')')
+    _, email_ids = mail.search(None, '(UNSEEN FROM ' + NETFLIX_EMAIL_SENDER + ')')
     email_ids = email_ids[0].split()
 
     if email_ids:
         email_id = email_ids[-1]
-        status, msg_data = mail.fetch(email_id, "(RFC822)")
+        _, msg_data = mail.fetch(email_id, "(RFC822)")
         msg = email.message_from_bytes(msg_data[0][1])
 
         if msg.is_multipart():
