@@ -11,8 +11,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
-NETFLIX_LOGIN = os.environ['NETFLIX_LOGIN']
-NETFLIX_PASSWORD = os.environ['NETFLIX_PASSWORD']
 EMAIL_IMAP = os.environ['EMAIL_IMAP']
 EMAIL_LOGIN = os.environ['EMAIL_LOGIN']
 EMAIL_PASSWORD = os.environ['EMAIL_PASSWORD']
@@ -27,7 +25,7 @@ def extract_links(text):
 
 
 def open_link_with_selenium(body):
-    """Opens Selenium, logins to Netflix and click a button to confirm connection"""
+    """Opens Selenium and clicks a button to confirm connection"""
     links = extract_links(body)
     for link in links:
         if "update-primary-location" in link:
@@ -39,14 +37,8 @@ def open_link_with_selenium(body):
             )
 
             driver.get(link)
-            time.sleep(2)
-            email_field = driver.find_element('name', 'userLoginId')
-            email_field.send_keys(NETFLIX_LOGIN)
-            password_field = driver.find_element('name', 'password')
-            password_field.send_keys(NETFLIX_PASSWORD)
+            time.sleep(3)
 
-            password_field.send_keys(Keys.RETURN)
-            time.sleep(2)
             try:
                 element = WebDriverWait(driver, 10).until(
                     EC.element_to_be_clickable((
@@ -58,7 +50,7 @@ def open_link_with_selenium(body):
             except TimeoutException as exception:
                 print("Error:", exception)
 
-            time.sleep(2)
+            time.sleep(3)
             driver.quit()
 
 
